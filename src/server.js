@@ -5,8 +5,13 @@ import express from 'express';
 import pinoHttp from 'pino-http';
 
 const app = express();
-const loger = pinoHttp();
-app.use(loger);
+const logger = pinoHttp({
+  transport:
+    process.env.NODE_ENV === 'development'
+      ? { target: 'pino-pretty' }
+      : undefined,
+});
+app.use(logger);
 
 app.use(cors());
 express.json();
