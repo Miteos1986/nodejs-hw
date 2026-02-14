@@ -17,14 +17,33 @@ app.get('/notes', (req, res) => {
   });
 });
 
-app.get('/notes/:noteId', (req, res) => {
+app.get('/notes/:noteId', (req, res, next) => {
   const { noteId } = req.params;
+
+  if (noteId === '0') {
+    const err = new Error('Something went wrong via next!');
+    return next(err);
+  }
 
   res.json({ message: `Retrieved note with ID:${noteId}` });
 });
 
-const PORT = Number.parseInt(process.env.PORT, 10) || 5000;
+//test route for fehler
+app.get('/test-error', (req, res) => {
+  throw new Error('Simulated server error');
+});
 
+// undefined route 404
+app.use((req, res, next) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+app.use((error, req, res, next) => {
+  console.log(error);
+  res.status(500).json({ message: 'Internal Server Error' });
+});
+
+const PORT = Number.parseInt(process.env.PORT, 10) || 5000;
 app.listen(PORT, (error) => {
   if (error) {
     throw error;
