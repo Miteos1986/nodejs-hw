@@ -14,7 +14,7 @@ const logger = pinoHttp({
 app.use(logger);
 
 app.use(cors());
-express.json();
+app.use(express.json());
 
 app.get('/notes', (req, res) => {
   res.json({
@@ -48,7 +48,7 @@ app.use((error, req, res, next) => {
   res.status(500).json({ message: 'Internal Server Error' });
 });
 
-const PORT = Number.parseInt(process.env.PORT, 10) || 5000;
+const PORT = Number.parseInt(process.env.PORT, 10) || 3000;
 app.listen(PORT, (error) => {
   if (error) {
     throw error;
