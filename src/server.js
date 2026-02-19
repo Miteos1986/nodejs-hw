@@ -7,15 +7,8 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { logger } from './middleware/logger.js';
 import { connectMongoDB } from './db/connectMongoDB.js';
+import { Note } from './models/note.js';
 
-//import pinoHttp from 'pino-http';
-
-/*const logger = pinoHttp({
-  transport:
-  process.env.NODE_ENV === 'development'
-  ? { target: 'pino-pretty' }
-  : undefined,
-  });*/
 const app = express();
 
 app.use(logger);
@@ -24,7 +17,29 @@ app.use(cors());
 
 await connectMongoDB();
 
-app.get('/notes', (req, res) => {
+/*app.get('/notes', async (req, res) => {
+  const notes = await mongoose.connection.db
+    .collection('notes')
+    .find({})
+    .toArray();
+  res.json({
+    message: 'Successfully found all notes',
+    status: 200,
+    data: notes,
+  });
+});*/
+
+app.get('/notes', async (req, res) => {
+  const notes = await Note.find();
+
+  res.json({
+    message: 'Successfuly find all notes',
+    status: 200,
+    data: notes,
+  });
+});
+
+/*app.get('/notes', (req, res) => {
   res.json({
     message: 'Retrieved all notes',
   });
@@ -39,7 +54,7 @@ app.get('/notes/:noteId', (req, res, next) => {
   }
 
   res.json({ message: `Retrieved note with ID:${noteId}` });
-});
+});*/
 
 // undefined route 404
 app.use(notFoundHandler);

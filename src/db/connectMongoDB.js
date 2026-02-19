@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const clientOptions = {
+  dbName: 'students',
   serverApi: { version: '1', strict: true, deprecationErrors: true },
 };
 
