@@ -3,7 +3,8 @@ export const errorHandler = (err, req, res, next) => {
 
   const isProd = process.env.NOTE_ENV === 'production';
 
-  res.status(500).json({
+  const status = err.status || 500;
+  res.status(status).json({
     message: isProd
       ? 'Something went wrong. Please try again later'
       : err.message,
