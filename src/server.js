@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import cors from 'cors';
 import express from 'express';
+import { errors } from 'celebrate';
 
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -24,6 +25,7 @@ await connectMongoDB();
 app.use(notesRouter);
 
 app.use(notFoundHandler);
+app.use(errors());
 app.use(errorHandler);
 
 const PORT = Number.parseInt(process.env.PORT, 10) || 3000;
