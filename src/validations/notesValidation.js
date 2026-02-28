@@ -13,7 +13,7 @@ export const getAllNotesSchema = {
   [Segments.QUERY]: Joi.object({
     page: Joi.number().integer().min(1),
     perPage: Joi.number().integer().min(5).max(20).default(10),
-    tags: Joi.string()
+    tag: Joi.string()
       .valid(...TAGS)
       .optional(),
     search: Joi.string().allow('').optional(),
@@ -37,14 +37,13 @@ export const createNoteSchema = {
 };
 
 export const updateNoteSchema = {
-  [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1).optional(),
-    content: Joi.string().allow('').optional(),
-    tag: Joi.string()
-      .valid(...TAGS)
-      .optional(),
-  }),
   [Segments.PARAMS]: Joi.object({
     noteId: Joi.string().custom(objectValidator).required(),
+  }),
+
+  [Segments.BODY]: Joi.object({
+    title: Joi.string().min(1),
+    content: Joi.string().allow(''),
+    tag: Joi.string().valid(...TAGS),
   }).min(1),
 };
