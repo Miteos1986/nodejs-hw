@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 import { TAGS } from '../constants/tags.js';
-import { User } from './user.js';
 
 const noteSchema = new Schema(
   {
@@ -22,7 +21,7 @@ const noteSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: User,
+      ref: 'User',
     },
   },
   { timestamps: true },
