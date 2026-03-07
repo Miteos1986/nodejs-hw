@@ -23,13 +23,12 @@ export const authenticate = async (req, res, next) => {
   }
 
   const user = await User.findById(expectedSession.userId);
-  console.log(user);
 
   if (!user) {
     throw createHttpError(401);
   }
   req.user = user;
-  console.log('req.user:', req.user);
+  console.log(req.user);
 
   next();
 };
